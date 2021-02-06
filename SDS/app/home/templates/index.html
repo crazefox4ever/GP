@@ -1,0 +1,183 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+<style> #video {
+  	margin-bottom: 150px;
+}
+#cam02{
+  margin-bottom: 150px;
+}
+</style>
+    <div class = "row">
+      <div class="col-md-6">
+        <h5 class="card-title">CAM 01</h5>
+        <h6 class="card-subtitle mb-2 text-muted">This is a live feed from camera 01</h6>
+        <video id="video" autoplay width="400" height="300" ></video>
+        <canvas id="canvas" width="0" height="0"></canvas>
+        </div>
+        <div class="col-md-6">
+          <h5 class="card-title">CAM 02</h5>
+          <h6 class="card-subtitle mb-2 text-muted">This is a live feed from camera 02</h6>
+          <img src = "https://www.logmask.com/images/mask-detection-sample.jpg" height="300" width="480" id='cam02'>
+          <canvas id="canvas" width="0" height="0"></canvas>
+      </div>
+    </div>
+    <div class = "row">
+      <div class="col-md-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info_outline</i>
+            </div>
+            <p class="card-category">Total violations</p>
+            <h3 class="card-title">80</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">local_offer</i> Tracked from Github
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 ">
+          <div class="card card-chart">
+          <canvas id="myChart" ></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-chart">
+          <div class="card-header card-header-success">
+            <div class="ct-chart" id="dailySalesChart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Daily violations</h4>
+            <p class="card-category">
+              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 22% </span> increase in today violations.</p>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">access_time</i> updated 7 minutes ago
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    
+    
+  
+      
+
+{% endblock content %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      md.initDashboardPageCharts();
+
+    });
+       
+
+		// Put event listeners into place
+		window.addEventListener("DOMContentLoaded", function() {
+			// Grab elements, create settings, etc.
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            var video = document.getElementById('video');
+            var mediaConfig =  { video: true };
+            var errBack = function(e) {
+            	console.log('An error has occurred!', e)
+            };
+
+			// Put video listeners into place
+            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
+					//video.src = window.URL.createObjectURL(stream);
+					video.srcObject = stream;
+                    video.play();
+                });
+            }
+
+            /* Legacy code below! */
+            else if(navigator.getUserMedia) { // Standard
+				navigator.getUserMedia(mediaConfig, function(stream) {
+					video.src = stream;
+					video.play();
+				}, errBack);
+			} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+				navigator.webkitGetUserMedia(mediaConfig, function(stream){
+					video.src = window.webkitURL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			} else if(navigator.mozGetUserMedia) { // Mozilla-prefixed
+				navigator.mozGetUserMedia(mediaConfig, function(stream){
+					video.src = window.URL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			}
+
+			// Trigger photo take
+			document.getElementById('snap').addEventListener('click', function() {
+				context.drawImage(video, 0, 0, 100, 100);
+			});
+		}, false);
+
+  </script>
+
+  <script>
+    var ctx = document.getElementById('myChart');
+  
+    var myDoughnutChart = new Chart(ctx, {
+      type: 'doughnut',
+      data : {
+      datasets: [{
+          data: [40,60],
+    backgroundColor: ["red", "Green"], 
+  
+      }],
+  
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+      labels: [
+          'Full',
+          'Free',
+      ]
+  },
+  
+      options:{
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Room Occupancy'
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          }
+        }
+  });
+  
+  </script>
+  <script>   
+addNote("Testing 123");
+  </script>
+  <script>
+    
+  </script>
+  
+
+{% endblock javascripts %}
