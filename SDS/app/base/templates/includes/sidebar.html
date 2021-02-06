@@ -1,0 +1,64 @@
+    <div class="sidebar" data-color="green" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
+      <div class="logo">
+        <a target="_blank" rel="noopener noreferrer" 
+           href="https://github.com/app-generator/jinja-template-material-dashboard" class="simple-text logo-normal">
+          SDS Dashboard
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        
+        <ul class="nav">
+
+          {% if current_user.is_authenticated %}
+          <li class="nav-item {% if 'index' in segment %} active {% endif %}">
+            <a class="nav-link" href="/">
+              <i class="material-icons">masks</i>
+              <p>Camera 01 | Face Mask</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'camera02' in segment %} active {% endif %}">
+            <a class="nav-link" href="/camera02.html">
+              <i class="material-icons">6_ft_apart</i>
+              <p>Camera 02 | social distancing </p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'analytics' in segment %} active {% endif %}">
+            <a class="nav-link" href="/analytics.html">
+              <i class="material-icons">analytics</i>
+              <p>Analytics</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-tables' in segment %} active {% endif %}">
+            <a class="nav-link" href="/ui-tables.html">
+              <i class="material-icons">report_problem</i>
+              <p>Violations </p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">
+            <a class="nav-link" href="/ui-icons.html">
+              <i class="material-icons">bubble_chart</i>
+              <p>Icons</p>
+            </a>
+          </li>
+          <li class="nav-item {% if 'ui-notifications' in segment %} active {% endif %}">
+            <a class="nav-link" href="/ui-notifications.html">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
+            </a>
+          </li>
+          
+
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ url_for('base_blueprint.logout') }}" >
+              <i class="material-icons">directions_run</i>
+              <p>Logout</p>
+            </a>
+          </li>
+          {% endif %}
+
+        </ul>
+
+
+      </div>
+
+    </div>
